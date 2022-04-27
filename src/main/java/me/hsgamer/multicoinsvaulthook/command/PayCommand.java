@@ -1,8 +1,8 @@
 package me.hsgamer.multicoinsvaulthook.command;
 
-import me.hsgamer.hscore.common.Validate;
 import me.hsgamer.multicoins.config.MessageConfig;
 import me.hsgamer.multicoins.core.bukkit.utils.MessageUtils;
+import me.hsgamer.multicoins.core.common.Validate;
 import me.hsgamer.multicoinsvaulthook.MultiCoinsVaultHook;
 import me.hsgamer.multicoinsvaulthook.Permissions;
 import me.hsgamer.multicoinsvaulthook.Utils;
