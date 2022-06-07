@@ -54,7 +54,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer player) {
-        return instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(player.getUniqueId()).getBalance();
+        return instance.getCoinHolderWrapper().getHolder().getBalance(player.getUniqueId());
     }
 
     @Override
@@ -64,14 +64,14 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(player.getUniqueId()).takeBalance(amount)
+        return instance.getCoinHolderWrapper().getHolder().takeBalance(player.getUniqueId(), amount)
                 ? new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, "Successful")
                 : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Failed to withdraw");
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        return instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(player.getUniqueId()).giveBalance(amount)
+        return instance.getCoinHolderWrapper().getHolder().giveBalance(player.getUniqueId(), amount)
                 ? new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, "Successful")
                 : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Failed to deposit");
     }

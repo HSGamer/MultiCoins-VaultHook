@@ -56,15 +56,15 @@ public class PayCommand extends Command {
         Optional<Double> optionalAmount = Validate.getNumber(args[1])
                 .map(BigDecimal::doubleValue)
                 .filter(value -> value > 0)
-                .filter(value -> instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(playerUUID).getBalance() >= value);
+                .filter(value -> instance.getCoinHolderWrapper().getHolder().getBalance(playerUUID) >= value);
         if (optionalAmount.isEmpty()) {
             MessageUtils.sendMessage(sender, MessageConfig.INVALID_NUMBER.getValue());
             return false;
         }
         double amount = optionalAmount.get();
 
-        instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(playerUUID).takeBalance(amount);
-        instance.getCoinHolderWrapper().getHolder().getOrCreateEntry(receiverUUID).giveBalance(amount);
+        instance.getCoinHolderWrapper().getHolder().takeBalance(playerUUID, amount);
+        instance.getCoinHolderWrapper().getHolder().giveBalance(receiverUUID, amount);
         MessageUtils.sendMessage(sender, instance.getCoinHolderWrapper().getFormatter().replace(
                 MessageConfig.GIVE_SUCCESS.getValue(), receiverUUID, amount
         ));

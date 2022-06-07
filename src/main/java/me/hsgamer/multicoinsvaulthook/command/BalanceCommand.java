@@ -43,7 +43,7 @@ public class BalanceCommand extends Command {
         }
         UUID uuid = who.getUniqueId();
         CoinHolderWrapper coinHolderWrapper = instance.getCoinHolderWrapper();
-        MessageUtils.sendMessage(sender, coinHolderWrapper.getFormatter().replace(MessageConfig.BALANCE.getValue(), uuid, coinHolderWrapper.getHolder().getOrCreateEntry(uuid).getBalance()));
+        MessageUtils.sendMessage(sender, coinHolderWrapper.getFormatter().replace(MessageConfig.BALANCE.getValue(), uuid, coinHolderWrapper.getHolder().getBalance(uuid)));
         return true;
     }
 
