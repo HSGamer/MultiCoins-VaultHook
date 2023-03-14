@@ -1,12 +1,11 @@
 package me.hsgamer.multicoinsvaulthook.command;
 
-import me.hsgamer.multicoins.config.MessageConfig;
 import me.hsgamer.multicoins.core.bukkit.utils.MessageUtils;
 import me.hsgamer.multicoins.core.common.Validate;
+import me.hsgamer.multicoins.object.CoinHolder;
 import me.hsgamer.multicoinsvaulthook.MultiCoinsVaultHook;
 import me.hsgamer.multicoinsvaulthook.Permissions;
 import me.hsgamer.multicoinsvaulthook.Utils;
-import me.hsgamer.multicoinsvaulthook.config.MainConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -40,14 +39,16 @@ public class PayCommand extends Command {
             return false;
         }
         if (!(sender instanceof Player)) {
-            MessageUtils.sendMessage(sender, MessageConfig.PLAYER_ONLY.getValue());
+            MessageUtils.sendMessage(sender, instance.getMultiCoins().getMessageConfig().getPlayerOnly());
             return false;
         }
+
+        CoinHolder coinHolder = instance.getCoinHolder();
 
         Player player = (Player) sender;
         OfflinePlayer receiver = Utils.getOfflinePlayer(args[0]);
         if (receiver == player) {
-            MessageUtils.sendMessage(sender, MainConfig.GIVE_SELF_ERROR.getValue());
+            MessageUtils.sendMessage(sender, instance.getMainConfig().getGiveSelfError());
             return false;
         }
         UUID playerUUID = player.getUniqueId();
@@ -56,17 +57,20 @@ public class PayCommand extends Command {
         Optional<Double> optionalAmount = Validate.getNumber(args[1])
                 .map(BigDecimal::doubleValue)
                 .filter(value -> value > 0)
-                .filter(value -> instance.getCoinHolderWrapper().getHolder().getBalance(playerUUID) >= value);
+                .filter(value -> coinHolder.getBalance(playerUUID) >= value);
         if (optionalAmount.isEmpty()) {
-            MessageUtils.sendMessage(sender, MessageConfig.INVALID_NUMBER.getValue());
+            MessageUtils.sendMessage(sender, instance.getMultiCoins().getMessageConfig().getInvalidNumber());
             return false;
         }
         double amount = optionalAmount.get();
 
-        instance.getCoinHolderWrapper().getHolder().takeBalance(playerUUID, amount);
-        instance.getCoinHolderWrapper().getHolder().giveBalance(receiverUUID, amount);
-        MessageUtils.sendMessage(sender, instance.getCoinHolderWrapper().getFormatter().replace(
-                MessageConfig.GIVE_SUCCESS.getValue(), receiverUUID, amount
+        coinHolder.takeBalance(playerUUID, amount);
+        coinHolder.giveBalance(receiverUUID, amount);
+        MessageUtils.sendMessage(sender, coinHolder.getCoinFormatter().replace(
+                instance.getMainConfig().getPaySuccess(), receiverUUID, amount
+        ));
+        MessageUtils.sendMessage(receiverUUID, coinHolder.getCoinFormatter().replace(
+                instance.getMainConfig().getPayReceived(), playerUUID, amount
         ));
         return true;
     }

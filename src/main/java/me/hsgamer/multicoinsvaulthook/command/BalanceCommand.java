@@ -1,11 +1,10 @@
 package me.hsgamer.multicoinsvaulthook.command;
 
-import me.hsgamer.multicoins.config.MessageConfig;
 import me.hsgamer.multicoins.core.bukkit.utils.MessageUtils;
+import me.hsgamer.multicoins.object.CoinHolder;
 import me.hsgamer.multicoinsvaulthook.MultiCoinsVaultHook;
 import me.hsgamer.multicoinsvaulthook.Permissions;
 import me.hsgamer.multicoinsvaulthook.Utils;
-import me.hsgamer.multicoinsvaulthook.wrapper.CoinHolderWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -38,12 +37,12 @@ public class BalanceCommand extends Command {
         } else if (sender instanceof Player) {
             who = (OfflinePlayer) sender;
         } else {
-            MessageUtils.sendMessage(sender, MessageConfig.PLAYER_ONLY.getValue());
+            MessageUtils.sendMessage(sender, instance.getMultiCoins().getMessageConfig().getPlayerOnly());
             return false;
         }
         UUID uuid = who.getUniqueId();
-        CoinHolderWrapper coinHolderWrapper = instance.getCoinHolderWrapper();
-        MessageUtils.sendMessage(sender, coinHolderWrapper.getFormatter().replace(MessageConfig.BALANCE.getValue(), uuid, coinHolderWrapper.getHolder().getBalance(uuid)));
+        CoinHolder coinHolder = instance.getCoinHolder();
+        MessageUtils.sendMessage(sender, coinHolder.getCoinFormatter().replace(instance.getMultiCoins().getMessageConfig().getBalance(), uuid, coinHolder.getBalance(uuid)));
         return true;
     }
 

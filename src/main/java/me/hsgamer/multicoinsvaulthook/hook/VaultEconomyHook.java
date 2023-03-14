@@ -30,22 +30,22 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public int fractionalDigits() {
-        return instance.getCoinHolderWrapper().getFormatter().getFractionDigits();
+        return instance.getCoinHolder().getCoinFormatter().getFractionDigits();
     }
 
     @Override
     public String format(double amount) {
-        return instance.getCoinHolderWrapper().getFormatter().format(amount);
+        return instance.getCoinHolder().getCoinFormatter().format(amount);
     }
 
     @Override
     public String currencyNamePlural() {
-        return MessageUtils.colorize(instance.getCoinHolderWrapper().getFormatter().getCurrencyPlural());
+        return MessageUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencyPlural());
     }
 
     @Override
     public String currencyNameSingular() {
-        return MessageUtils.colorize(instance.getCoinHolderWrapper().getFormatter().getCurrencySingular());
+        return MessageUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencySingular());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer player) {
-        return instance.getCoinHolderWrapper().getHolder().getBalance(player.getUniqueId());
+        return instance.getCoinHolder().getBalance(player.getUniqueId());
     }
 
     @Override
@@ -65,14 +65,14 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return instance.getCoinHolderWrapper().getHolder().takeBalance(player.getUniqueId(), amount)
+        return instance.getCoinHolder().takeBalance(player.getUniqueId(), amount)
                 ? new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, "Successful")
                 : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Failed to withdraw");
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        return instance.getCoinHolderWrapper().getHolder().giveBalance(player.getUniqueId(), amount)
+        return instance.getCoinHolder().giveBalance(player.getUniqueId(), amount)
                 ? new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, "Successful")
                 : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Failed to deposit");
     }

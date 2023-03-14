@@ -1,15 +1,25 @@
 package me.hsgamer.multicoinsvaulthook.config;
 
-import me.hsgamer.multicoins.core.bukkit.config.BukkitConfig;
-import me.hsgamer.multicoins.core.config.PathableConfig;
-import me.hsgamer.multicoins.core.config.path.impl.StringConfigPath;
-import org.bukkit.plugin.Plugin;
+import me.hsgamer.multicoins.core.config.annotation.ConfigPath;
 
-public class MainConfig extends PathableConfig {
-    public static final StringConfigPath MAIN_CURRENCY = new StringConfigPath("main-currency", "money");
-    public static final StringConfigPath GIVE_SELF_ERROR = new StringConfigPath("give-self-error", "&cYou can't give yourself money!");
+public interface MainConfig {
+    @ConfigPath("main-currency")
+    default String getMainCurrency() {
+        return "money";
+    }
 
-    public MainConfig(Plugin plugin) {
-        super(new BukkitConfig(plugin, "config.yml"));
+    @ConfigPath("give-self-error")
+    default String getGiveSelfError() {
+        return "&cYou can't give yourself money!";
+    }
+
+    @ConfigPath("pay-success")
+    default String getPaySuccess() {
+        return "&aYou have paid &e{amount} {currency} &ato &e{name}";
+    }
+
+    @ConfigPath("pay-received")
+    default String getPayReceived() {
+        return "&aYou have received &e{amount} {currency} &afrom &e{name}";
     }
 }
