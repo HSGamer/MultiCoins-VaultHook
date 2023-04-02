@@ -4,3 +4,4 @@ main: me.hsgamer.multicoinsvaulthook.MultiCoinsVaultHook
 api-version: 1.13
 depend: [ Vault, MultiCoins ]
 authors: [ HSGamer ]
+folia-supported: true
