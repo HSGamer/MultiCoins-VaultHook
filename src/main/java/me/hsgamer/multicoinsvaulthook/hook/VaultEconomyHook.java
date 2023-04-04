@@ -1,6 +1,6 @@
 package me.hsgamer.multicoinsvaulthook.hook;
 
-import me.hsgamer.multicoins.core.bukkit.utils.MessageUtils;
+import me.hsgamer.multicoins.core.bukkit.utils.ColorUtils;
 import me.hsgamer.multicoinsvaulthook.MultiCoinsVaultHook;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -40,12 +40,12 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public String currencyNamePlural() {
-        return MessageUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencyPlural());
+        return ColorUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencyPlural());
     }
 
     @Override
     public String currencyNameSingular() {
-        return MessageUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencySingular());
+        return ColorUtils.colorize(instance.getCoinHolder().getCoinFormatter().getCurrencySingular());
     }
 
     @Override
